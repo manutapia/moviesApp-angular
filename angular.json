@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "moviesApp"
+    }
+  },
+  "defaultProject": "moviesApp",
+  "cli": {
+    "analytics": false
+  }
 }
