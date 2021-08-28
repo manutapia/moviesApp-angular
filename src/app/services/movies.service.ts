@@ -5,6 +5,8 @@ import { Observable, of } from 'rxjs';
 import { map, tap } from "rxjs/operators";
 
 import { Movie, NowPlayingResponse } from "../interfaces/now-playing-response";
+import { MovieDetailsResponse } from "../interfaces/movie-details-response";
+import { Cast, CreditsResponse } from "../interfaces/credits-response";
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +25,10 @@ export class MoviesService {
       languaje: 'en-US',
       page: this.nowPlayingPage.toString()
     }
+  }
+
+  resetNowPlayingPage(){
+    this.nowPlayingPage = 1;
   }
 
   getNowPlaying():Observable<Movie[]>{
@@ -53,7 +59,9 @@ export class MoviesService {
     );
   }
 
-  resetNowPlayingPage(){
-    this.nowPlayingPage = 1;
+  getMovieDetails(id:string):Observable<MovieDetailsResponse>{
+    return this.http.get<MovieDetailsResponse>(`${this.baseUrl}/movie/${id}`,{
+      params: this.params
+    })
   }
 }
