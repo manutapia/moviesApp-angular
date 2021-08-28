@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Movie } from 'src/app/interfaces/now-playing-response';
 
 declare var Swiper: any;
@@ -8,11 +8,12 @@ declare var Swiper: any;
   templateUrl: './slideshow.component.html',
   styleUrls: ['./slideshow.component.css']
 })
-export class SlideshowComponent implements OnInit, AfterViewInit {
+export class SlideshowComponent implements OnInit, AfterViewInit, OnDestroy {
   
   @Input() movies:Movie[]
 
   private swiper:any;
+  private interval;
 
   constructor() { }
 
@@ -23,6 +24,13 @@ export class SlideshowComponent implements OnInit, AfterViewInit {
     this.swiper= new Swiper('.swiper', {
       loop: true,
     });
+    setInterval(()=>{
+      this.onSlideNext();
+    },5000)
+  }
+
+  ngOnDestroy():void{
+    clearInterval(this.interval)
   }
 
   onSlidePrev(){
