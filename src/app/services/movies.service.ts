@@ -52,4 +52,8 @@ export class MoviesService {
       map( resp => resp.results )
     );
   }
+
+  resetNowPlayingPage(){
+    this.nowPlayingPage = 1;
+  }
 }
