@@ -11,7 +11,7 @@ import { Movie, NowPlayingResponse } from "../interfaces/now-playing-response";
 })
 export class MoviesService {
 
-  private baseUrl:string = "https://api.themoviedb.org"
+  private baseUrl:string = "https://api.themoviedb.org/3"
   private nowPlayingPage = 1;
   private loading = false;
 
@@ -33,7 +33,7 @@ export class MoviesService {
 
     this.loading = true;
     console.log(this.loading)
-    return this.http.get<NowPlayingResponse>(`${this.baseUrl}/3/movie/now_playing`,{
+    return this.http.get<NowPlayingResponse>(`${this.baseUrl}/movie/now_playing`,{
       params: this.params
     }).pipe(
       map(resp=> resp.results),
@@ -42,5 +42,14 @@ export class MoviesService {
         this.loading = false;
       })
     )
+  }
+
+  searchMovies(text:string):Observable<Movie[]>{
+    const params = {...this.params, page:'1', query:text };
+    return this.http.get<NowPlayingResponse>(`${this.baseUrl}/search/movie`,{
+      params
+    }).pipe(
+      map( resp => resp.results )
+    );
   }
 }
