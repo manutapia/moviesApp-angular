@@ -14,7 +14,6 @@ export class MoviesPosterGridComponent implements OnInit {
   constructor(private router:Router) { }
 
   ngOnInit(): void {
-    console.log(this.movies)
   }
 
   onMovieClick(movie:Movie){

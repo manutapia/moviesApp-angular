@@ -13,16 +13,25 @@ import { MoviesService } from 'src/app/services/movies.service';
 export class MovieComponent implements OnInit {
 
   public movie:MovieDetailsResponse;
-  public cast:Cast[];
+  public cast:Cast[] = [];
 
-  constructor(private activatedRoute:ActivatedRoute, private _moviesService:MoviesService, private location:Location) { }
+  constructor(private activatedRoute:ActivatedRoute, private _moviesService:MoviesService, private location:Location, private router:Router) { }
 
   ngOnInit(): void {
     const { id } = this.activatedRoute.snapshot.params;
     this._moviesService.getMovieDetails(id).subscribe(movie=>{
+      if (!movie) {
+        this.router.navigateByUrl('/home');
+        return;
+      }
       this.movie = movie;
     })
     
+    this._moviesService.getCast(id).subscribe(cast=>{
+      this.cast = cast;
+    })
+
+  }
 
   onBack(){
     this.location.back()
